@@ -2,6 +2,9 @@ import React from "react";
 import "./style.scss";
 import { withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
+import { connect } from "react-redux";
+import { bindActionCreators } from 'redux';
+import {updateBag} from '../../services/actions';
 import {
   CardMedia,
   CardContent,
@@ -9,6 +12,7 @@ import {
   IconButton
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
+
 const styles = theme => ({
   card: {
     display: "flex",
@@ -39,6 +43,14 @@ class BagCard extends React.Component {
     this.state = {
     };
   }
+
+  handleClick = event => {
+    let item = this.props.item;
+    let items = this.props.items;
+    items = items.filter(e=> e.id !==item.id);
+    this.props.updateBag(items,true);
+   };
+
   render() {
     const { classes } = this.props;
     return (
@@ -59,7 +71,7 @@ class BagCard extends React.Component {
           </CardContent>
           <div className={classes.controls}>
             <IconButton>
-              <DeleteIcon />
+              <DeleteIcon onClick={this.handleClick}/>
             </IconButton>
           </div>
         </div>
@@ -67,5 +79,14 @@ class BagCard extends React.Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return { items: state.bagReducer.items }
+}
 
-export default withStyles(styles)(BagCard);
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    updateBag,
+  }, dispatch)
+}
+
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(BagCard));
