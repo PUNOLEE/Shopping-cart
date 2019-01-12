@@ -69,12 +69,12 @@ class App extends Component {
           anchorEl={anchorEl}
           onClose={this.handleClose}
           anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "center"
+            vertical: "top",
+            horizontal: "right"
           }}
           transformOrigin={{
             vertical: "top",
-            horizontal: "center"
+            horizontal: "right"
           }}
         >
           <Bag />

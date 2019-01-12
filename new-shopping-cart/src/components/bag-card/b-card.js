@@ -67,7 +67,11 @@ class BagCard extends React.Component {
               {this.props.item.title}
             </Typography>
             <Typography variant="subtitle1" color="textSecondary" >
-            {this.props.item.currencyFormat}{this.props.item.price}</Typography>
+            {this.props.item.currencyFormat}{this.props.item.price}
+            </Typography>
+            <Typography variant="subtitle1" color="textSecondary" >
+            quantity:{this.props.item.quantity}
+            </Typography>
           </CardContent>
           <div className={classes.controls}>
             <IconButton>

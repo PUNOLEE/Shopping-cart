@@ -8,9 +8,9 @@ import CardContent from "@material-ui/core/CardContent";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux';
-import {updateBag} from '../../services/actions';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { updateBag } from "../../services/actions";
 
 const styles = theme => ({
   card: {
@@ -24,13 +24,13 @@ const styles = theme => ({
   actions: {
     display: "flex",
     alignItems: "center",
-    justifyContent:"center"
+    justifyContent: "center"
   },
-  price:{
-    display:"flex",
+  price: {
+    display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent:"center",
+    justifyContent: "center"
   }
 });
 
@@ -48,11 +48,18 @@ class ViewCard extends React.Component {
   };
 
   handleClick = event => {
-    let items=this.props.items;
-    items.push(this.props.product);
-    this.props.updateBag(items,true);
-  };
+    let items = this.props.items;
+    let product = this.props.product;
 
+    if (items.some(e => e.id === product.id)) {
+      product["quantity"] += 1;
+    } else {
+      product["quantity"] = 1;
+      items.push(product);
+    }
+
+    this.props.updateBag(items, true);
+  };
 
   render() {
     const { classes } = this.props;
@@ -60,12 +67,13 @@ class ViewCard extends React.Component {
     return (
       <Card className={classes.card}>
         <CardHeader
-        action={
-          <IconButton aria-label="Add to favorites" color="secondary">
-          <FavoriteIcon onClick={this.handleClick}/>
-        </IconButton>
-        }
-        subheader="Free shipping" />
+          action={
+            <IconButton aria-label="Add to favorites" color="secondary">
+              <FavoriteIcon onClick={this.handleClick} />
+            </IconButton>
+          }
+          subheader="Free shipping"
+        />
         <CardMedia
           className={classes.media}
           image={require(`../../static/products/${
@@ -76,14 +84,14 @@ class ViewCard extends React.Component {
         <CardContent>
           <Typography component="p">{this.props.product.title}</Typography>
           <div className={classes.price}>
-          <Typography component="p" >
-            {this.props.product.currencyFormat}</Typography>
+            <Typography component="p">
+              {this.props.product.currencyFormat}
+            </Typography>
             <Typography variant="h6" color="secondary">
-            {this.props.product.price}
-          </Typography>
+              {this.props.product.price}
+            </Typography>
           </div>
         </CardContent>
-        
       </Card>
     );
   }
@@ -93,14 +101,22 @@ ViewCard.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-const mapStateToProps = (state) => {
-  return { items: state.bagReducer.items }
-}
+const mapStateToProps = state => {
+  return { items: state.bagReducer.items };
+};
 
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({
-    updateBag,
-  }, dispatch)
-}
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      updateBag
+    },
+    dispatch
+  );
+};
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(ViewCard));
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(ViewCard)
+);
