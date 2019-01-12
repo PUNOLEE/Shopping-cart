@@ -11,6 +11,16 @@ class Bag extends React.Component {
     this.state = {
     };
   }
+  calculateTotal = () =>{
+    let money = 0;
+    if(this.props.items.length!==0){
+      this.props.items.forEach(item=>{
+        money+=item.quantity*item.price;
+      });
+    }
+    return money;
+  }
+
   render() {
     return (
       <div className="Popover">
@@ -22,9 +32,14 @@ class Bag extends React.Component {
             <BagCard item={item} />
           ))}
         </div>
-        <Button variant="contained" color="primary">
-          Check Out
-        </Button>
+        <div className="actions">
+          <Button variant="contained" color="primary">
+            Check Out
+          </Button>
+          <div className="actions-total">
+            <Typography variant="h6">Total: ${this.calculateTotal()} </Typography>
+          </div>
+        </div>
       </div>
     );
   }

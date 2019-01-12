@@ -14,3 +14,9 @@
   overflow-y: scroll;
   margin-bottom: 10px;
 }
+
+.actions{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
