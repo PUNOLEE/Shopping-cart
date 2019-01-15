@@ -4,12 +4,34 @@ body {
 .App {
   text-align: center;
   margin: 100px;
-  &-logo {
-    animation: App-logo-spin infinite 20s linear;
-    height: 40vmin;
+
+  &-paper {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 0.5em;
   }
+
+  &-chip {
+    margin: 0.5em;
+  }
+
   &-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 1em;
+  }
+
+  &-counter {
+    color: rgba($color: #fff, $alpha: 0.6);
+    float: left;
+  }
+
+  &-icon {
     background-color: white;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     float: right;
     // min-height: 100vh;
@@ -20,6 +42,7 @@ body {
     // font-size: calc(10px + 2vmin);
     // color: white;
   }
+
   &-link {
     color: #61dafb;
   }

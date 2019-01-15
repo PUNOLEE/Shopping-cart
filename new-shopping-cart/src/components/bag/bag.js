@@ -8,18 +8,17 @@ import { connect } from "react-redux";
 class Bag extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
   }
-  calculateTotal = () =>{
+  calculateTotal = () => {
     let money = 0;
-    if(this.props.items.length!==0){
-      this.props.items.forEach(item=>{
-        money+=item.quantity*item.price;
+    if (this.props.items.length !== 0) {
+      this.props.items.forEach(item => {
+        money += item.quantity * item.price;
       });
     }
     return money;
-  }
+  };
 
   render() {
     return (
@@ -37,7 +36,9 @@ class Bag extends React.Component {
             Check Out
           </Button>
           <div className="actions-total">
-            <Typography variant="h6">Total: ${this.calculateTotal()} </Typography>
+            <Typography variant="h6">
+              Total: ${this.calculateTotal()}{" "}
+            </Typography>
           </div>
         </div>
       </div>

@@ -72,7 +72,7 @@ class ViewCard extends React.Component {
               <FavoriteIcon onClick={this.handleClick} />
             </IconButton>
           }
-          subheader="Free shipping"
+          subheader={this.props.product.isFreeShipping ? "Free shipping" : ""}
         />
         <CardMedia
           className={classes.media}

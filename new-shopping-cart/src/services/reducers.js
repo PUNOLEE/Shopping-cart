@@ -2,7 +2,7 @@ import { UPDATE_BAG } from "./actions";
 
 const INITIAL_DATA = {
   items: [],
-  show: false,
+  show: false
 };
 
 const bagReducer = (state = INITIAL_DATA, action) => {
