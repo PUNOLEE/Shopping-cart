@@ -3,7 +3,7 @@ This project was derived from [react-shopping-cart](https://github.com/jefferson
 ![](screen.png)
 
 ### Build/Run
-
+```
 /* First, Install the needed packages */
 npm install
 
@@ -15,4 +15,4 @@ npm run test
 
 /* Running e2e tests */
 npm run wdio
-
+```
