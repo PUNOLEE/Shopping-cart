@@ -29,5 +29,6 @@
   ],
   "devDependencies": {
     "redux-devtools": "^3.5.0"
-  }
+  },
+  "homepage" : "https://shopping-cart-ffa93.firebaseapp.com"
 }
