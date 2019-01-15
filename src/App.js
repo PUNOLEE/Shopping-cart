@@ -79,6 +79,16 @@ class App extends Component {
     this.setState({ products: ps });
   };
 
+  calculateNumber = () => {
+    let num = 0;
+    if (this.props.items.length !== 0) {
+      this.props.items.forEach(item => {
+        num += item.quantity;
+      });
+    }
+    return num;
+  };
+
   render() {
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl) || this.props.show;
@@ -90,6 +100,7 @@ class App extends Component {
             {this.state.sizes.map((size, index) => {
               return (
                 <Chip
+                  key={index}
                   label={size}
                   className="App-chip"
                   onClick={this.handleFilterClick(size, index)}
@@ -107,19 +118,19 @@ class App extends Component {
               onClick={this.handleClick}
               color="primary"
             >
-              <Badge badgeContent={this.props.items.length} color="secondary">
+              <Badge badgeContent={this.calculateNumber()} color="secondary">
                 <BagIcon />
               </Badge>
             </IconButton>
           </div>
         </div>
-        <div class="App-counter">
+        <div className="App-counter">
           {this.state.products.length} Product(s) found.
         </div>
         <Grid container spacing={24}>
-          {this.state.products.map(product => (
-            <Grid item xs={3}>
-              <ViewCard product={product} />
+          {this.state.products.map((product,index)=> (
+            <Grid item xs={3} key={index}>
+              <ViewCard product={product} key={product.id}/>
             </Grid>
           ))}
         </Grid>

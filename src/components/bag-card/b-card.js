@@ -74,8 +74,8 @@ class BagCard extends React.Component {
             </Typography>
           </CardContent>
           <div className={classes.controls}>
-            <IconButton>
-              <DeleteIcon onClick={this.handleClick}/>
+            <IconButton onClick={this.handleClick}>
+              <DeleteIcon/>
             </IconButton>
           </div>
         </div>

@@ -27,8 +27,8 @@ class Bag extends React.Component {
           Review Bag
         </Typography>
         <div className="items">
-          {this.props.items.map(item => (
-            <BagCard item={item} />
+          {this.props.items.map((item,index)=> (
+            <BagCard item={item} key={index}/>
           ))}
         </div>
         <div className="actions">

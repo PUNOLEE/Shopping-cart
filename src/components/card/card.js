@@ -68,8 +68,12 @@ class ViewCard extends React.Component {
       <Card className={classes.card}>
         <CardHeader
           action={
-            <IconButton aria-label="Add to favorites" color="secondary">
-              <FavoriteIcon onClick={this.handleClick} />
+            <IconButton
+              aria-label="Add to favorites"
+              color="secondary"
+              onClick={this.handleClick}
+            >
+              <FavoriteIcon />
             </IconButton>
           }
           subheader={this.props.product.isFreeShipping ? "Free shipping" : ""}
