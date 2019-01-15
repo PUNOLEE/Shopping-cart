@@ -11,6 +11,7 @@ import { bindActionCreators } from "redux";
 import { updateBag } from "./services/actions";
 import Chip from "@material-ui/core/Chip";
 import Paper from "@material-ui/core/Paper";
+import Badge from "@material-ui/core/Badge";
 
 class App extends Component {
   constructor(props) {
@@ -106,7 +107,9 @@ class App extends Component {
               onClick={this.handleClick}
               color="primary"
             >
-              <BagIcon />
+              <Badge badgeContent={this.props.items.length} color="secondary">
+                <BagIcon />
+              </Badge>
             </IconButton>
           </div>
         </div>
