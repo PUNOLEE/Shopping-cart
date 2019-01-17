@@ -34,6 +34,7 @@ body {
     height: 48px;
     border-radius: 50%;
     float: right;
+    margin-left:1em;
     // min-height: 100vh;
     // display: flex;
     // flex-direction: column;
@@ -45,6 +46,16 @@ body {
 
   &-link {
     color: #61dafb;
+  }
+}
+
+.User-info{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  &-name{
+    margin:auto !important;
   }
 }
 
