@@ -11,6 +11,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { updateBag } from "../../services/actions";
+import firebase from "../../services/firebase";
 
 const styles = theme => ({
   card: {
@@ -58,6 +59,13 @@ class ViewCard extends React.Component {
       items.push(product);
     }
 
+    var user = firebase.auth().currentUser;
+    firebase
+          .database()
+          .ref("users/" + user.uid)
+          .update({
+            bag: items
+          });
     this.props.updateBag(items, true);
   };
 

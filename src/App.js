@@ -30,6 +30,7 @@ class App extends Component {
     super(props);
 
     this.state = {
+      isUpdated: false,
       products: [],
       allproducts: [],
       anchorEl: null,
@@ -45,7 +46,8 @@ class App extends Component {
       ],
       clicked: [],
       open: false,
-      user: ""
+      bag: [],
+      userexist: false
     };
   }
 
@@ -67,19 +69,44 @@ class App extends Component {
     this.props.updateBag(this.props.items, false);
   };
 
+  readUserData() {
+    var userid = firebase.auth().currentUser.uid;
+    return new Promise(function(resolve, reject) {
+      firebase
+        .database()
+        .ref("/users/" + userid)
+        .once("value")
+        .then(snapshot => {
+          var bag = [];
+          if (snapshot.val().bag !== undefined)
+            snapshot.val().bag.forEach(i => bag.push(i));
+          resolve(bag);
+        });
+    });
+  }
+
+  authUser() {
+    return new Promise(function(resolve, reject) {
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          resolve(user);
+        } else {
+          reject("User not logged in");
+        }
+      });
+    });
+  }
+
   componentDidMount() {
     import("./products.json").then(json => {
       this.setState({ products: json.products, allproducts: json.products });
     });
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        console.log(user);
-        // User is signed in.
-      } else {
-        // No user is signed in.
-      }
-    });
-    console.log(firebase.auth().currentUser);
+    this.authUser().then(
+      user => {
+        this.readUserData().then(bag => this.props.updateBag(bag, false));
+      },
+      error => {}
+    );
   }
 
   handleFilterClick = (size, index) => event => {
@@ -117,33 +144,49 @@ class App extends Component {
     return num;
   };
 
-  signInNUp = () => {
-    firebase
-      .auth()
-      .signInWithPopup(provider)
-      .then(function(result) {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        //var token = result.credential.accessToken;
-        // The signed-in user info.
-        // ...
-      })
-      .catch(function(error) {
-        // Handle Errors here.
-        // ...
+  authSignIn() {
+    return new Promise(function(resolve, reject) {
+      firebase.auth().signInWithPopup(provider).then(function(result) {
+        if (result.user) {
+          resolve(result.user);
+        } else {
+          reject("User not logged in");
+        }
       });
+    });
+  }
+  signInNUp = () => {
+    this.authSignIn().then(user => {
+      firebase
+      .database()
+      .ref("users/" + user.uid)
+      .update({
+        username: user.displayName,
+        email: user.email
+      });
+      this.readUserData().then(bag => {
+        console.log(bag);
+        this.props.updateBag(bag, false)
+      } );
+    })
     this.setState({ open: false });
   };
 
   signOut = () => {
-    firebase.auth().signOut().then(function() {
-      // Sign-out successful.
-      
-      alert("Sign Out Successfully!");
-      
-    }).catch(function(error) {
-      // An error happened.
-    });
-    this.setState({ open: false});
+    firebase
+      .auth()
+      .signOut()
+      .then(function() {
+        // Sign-out successful.
+
+        alert("Sign Out Successfully!");
+      })
+      .catch(function(error) {
+        // An error happened.
+      });
+    this.setState({ open: false });
+    var bag = [];
+    this.props.updateBag(bag, false);
   };
 
   render() {

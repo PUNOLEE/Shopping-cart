@@ -12,6 +12,7 @@ import {
   IconButton
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
+import firebase from "../../services/firebase";
 
 const styles = theme => ({
   card: {
@@ -48,6 +49,13 @@ class BagCard extends React.Component {
     let item = this.props.item;
     let items = this.props.items;
     items = items.filter(e=> e.id !==item.id);
+    var user = firebase.auth().currentUser;
+    firebase
+          .database()
+          .ref("users/" + user.uid)
+          .update({
+            bag: items
+          });
     this.props.updateBag(items,true);
    };
 
