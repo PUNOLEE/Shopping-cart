@@ -4,6 +4,8 @@ import Typography from "@material-ui/core/Typography";
 import BagCard from "../bag-card/b-card";
 import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { updateBag } from "../../services/actions";
 
 class Bag extends React.Component {
   constructor(props) {
@@ -20,6 +22,11 @@ class Bag extends React.Component {
     return money;
   };
 
+  checkout = () =>{
+    var items = [];
+    this.props.updateBag(items,true);
+  }
+
   render() {
     return (
       <div className="Popover">
@@ -32,7 +39,7 @@ class Bag extends React.Component {
           ))}
         </div>
         <div className="actions">
-          <Button variant="contained" color="primary">
+          <Button variant="contained" color="primary" onClick={this.checkout}>
             Check Out
           </Button>
           <div className="actions-total">
@@ -49,7 +56,16 @@ const mapStateToProps = state => {
   return { items: state.bagReducer.items };
 };
 
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      updateBag
+    },
+    dispatch
+  );
+};
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(Bag);
