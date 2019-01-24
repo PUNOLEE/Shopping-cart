@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { updateBag } from "../../services/actions";
+import firebase from "../../services/firebase";
 
 class Bag extends React.Component {
   constructor(props) {
@@ -24,6 +25,13 @@ class Bag extends React.Component {
 
   checkout = () =>{
     var items = [];
+    var user = firebase.auth().currentUser;
+    firebase
+          .database()
+          .ref("users/" + user.uid)
+          .update({
+            bag: items
+          });
     this.props.updateBag(items,true);
   }
 
